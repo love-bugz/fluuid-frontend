@@ -1,6 +1,8 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { Card, Grid } from "antd";
+import { Card } from "antd";
+import { useSession, signIn, signOut } from "next-auth/client";
+import Header from "../components/Header";
 
 export async function getServerSideProps(context) {
   const droplets = [
@@ -94,6 +96,7 @@ export default function Home({ droplets }) {
         <title>Fluuid</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
 
       <main className={styles.main}>
         <h1 className={styles.title}>fluuid</h1>
