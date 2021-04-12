@@ -1,6 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/client";
 import { PageHeader, Button } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
+import Link from "next/link";
 
 const Header = () => {
   const [session, loading] = useSession();
@@ -17,10 +18,14 @@ const Header = () => {
         title={handle}
         subTitle="fluuid"
         extra={[
-          <Button key="3">feed</Button>,
-          <Button key="2">profile</Button>,
+          <Button key="3">
+            <Link href="/">feed</Link>
+          </Button>,
+          <Button key="2">
+            <Link href="/profile">profile</Link>
+          </Button>,
           <Button key="1" type="primary">
-            start talking
+            <Link href="/talk">start talking</Link>
           </Button>,
         ]}
         avatar={{

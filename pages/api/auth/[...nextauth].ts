@@ -22,8 +22,8 @@ export default NextAuth({
       // for now, just return true
       return true;
     },
-    async redirect(url, baseUrl) {
-      return baseUrl;
+    async redirect(url: string, baseUrl: string) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
     },
     async session(session, user) {
       user.handle = "chanceHalo";
