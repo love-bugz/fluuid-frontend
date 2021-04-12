@@ -1,11 +1,33 @@
 import { useSession, signIn, signOut } from "next-auth/client";
 import { PageHeader, Button } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const [session, loading] = useSession();
-  const handle = session?.user?.handle;
+  const [handle, setHandle] = useState("");
+  const ISSERVER = typeof window === "undefined";
+
+  if (!ISSERVER) {
+    // Access localStorage
+    if (!handle.length) {
+      const handleFromLS = localStorage.getItem("handle");
+      setHandle(handleFromLS);
+    }
+  }
+
+  useEffect(() => {
+    if (session) {
+      const email = session.user.email;
+      fetch(`http://localhost:5000/users/emailId/${email}`).then((res) => {
+        res.json().then((json) => {
+          console.log("JSON", json);
+          localStorage.setItem("handle", json.handle);
+          localStorage.setItem("user_id", json.id);
+        });
+      });
+    }
+  }, [session]);
   if (session) {
     return (
       <PageHeader
@@ -19,7 +41,7 @@ const Header = () => {
         subTitle="fluuid"
         extra={[
           <Button key="3">
-            <Link href="/">feed</Link>
+            <Link href="/feed">feed</Link>
           </Button>,
           <Button key="2">
             <Link href="/profile">profile</Link>

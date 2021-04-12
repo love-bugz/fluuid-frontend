@@ -3,7 +3,8 @@ import Header from "../components/Header";
 import { useSession } from "next-auth/client";
 import { Button } from "antd";
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 function upload() {}
 
@@ -11,6 +12,11 @@ export default function Talk() {
   const [session, loading] = useSession();
 
   const [recording, setRecording] = useState(false);
+
+  useEffect(() => {
+    console.log("session: ", session);
+    return function cleanup() {};
+  }, [session]);
 
   return (
     <div className={styles.container}>
@@ -27,8 +33,10 @@ export default function Talk() {
             marginTop: 30,
           }}
         >
-          <h3>upload a file</h3>
-          <button onClick={upload}>upload</button>
+          <h4>
+            <Link href="/birth">click here to link to use a link</Link>
+          </h4>
+          , or <button onClick={upload}>upload</button> a file
         </section>
       </main>
 
@@ -43,7 +51,14 @@ const RecordSection = ({ recording, setRecording }) => {
   return (
     <>
       <h2>press to record</h2>
-      <h1>{recording ? "RECORDING" : "-"}</h1>
+      <h1
+        style={{
+          color: recording ? "red" : "gray",
+          fontSize: recording ? 24 : 23,
+        }}
+      >
+        recording
+      </h1>
       <Button
         onTouchStart={() => {
           setRecording(true);
