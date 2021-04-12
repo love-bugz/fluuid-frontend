@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Header from "../components/Header";
-import { useSession } from "next-auth/client";
+import { useSession, signOut } from "next-auth/client";
 import styles from "../styles/Home.module.css";
 
 export default function Profile() {
@@ -14,9 +14,12 @@ export default function Profile() {
       <Header />
 
       <main className={styles.main}>
-        <h1>{session?.user?.handle}</h1>
-
-        <section></section>
+        {session && (
+          <>
+            <h1>{session?.user?.handle}</h1>
+            <button onClick={() => signOut()}>Log out</button>
+          </>
+        )}
       </main>
 
       <footer className={styles.footer}>

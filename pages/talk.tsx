@@ -5,6 +5,8 @@ import { Button } from "antd";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 
+function upload() {}
+
 export default function Talk() {
   const [session, loading] = useSession();
 
@@ -19,18 +21,15 @@ export default function Talk() {
       <Header />
 
       <main className={styles.main}>
-        <h2>press to record</h2>
-        <h1>{recording ? "RECORDING" : "-"}</h1>
-        <Button
-          onTouchStart={() => {
-            setRecording(true);
-          }}
-          onTouchEnd={() => {
-            setRecording(false);
+        <RecordSection recording={recording} setRecording={setRecording} />
+        <section
+          style={{
+            marginTop: 30,
           }}
         >
-          PRESS
-        </Button>
+          <h3>upload a file</h3>
+          <button onClick={upload}>upload</button>
+        </section>
       </main>
 
       <footer className={styles.footer}>
@@ -39,3 +38,22 @@ export default function Talk() {
     </div>
   );
 }
+
+const RecordSection = ({ recording, setRecording }) => {
+  return (
+    <>
+      <h2>press to record</h2>
+      <h1>{recording ? "RECORDING" : "-"}</h1>
+      <Button
+        onTouchStart={() => {
+          setRecording(true);
+        }}
+        onTouchEnd={() => {
+          setRecording(false);
+        }}
+      >
+        PRESS
+      </Button>
+    </>
+  );
+};
